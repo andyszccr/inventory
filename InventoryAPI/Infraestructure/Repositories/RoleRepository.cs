@@ -93,6 +93,22 @@ public class RoleRepository(IDbConnectionFactory connectionFactory) : IRoleRepos
         });
     }
 
+    public async Task DeleteAsync(int roleId, CancellationToken cancellationToken = default)
+    {
+        await ExecuteAsync(async () =>
+        {
+            using var connection = connectionFactory.CreateConnection();
+            var command = new CommandDefinition(
+                "dbo.sp_Roles_Delete",
+                new { RoleID = roleId },
+                commandType: CommandType.StoredProcedure,
+                cancellationToken: cancellationToken);
+
+            await connection.ExecuteAsync(command);
+            return 0;
+        });
+    }
+
     private static async Task<T> ExecuteAsync<T>(Func<Task<T>> action)
     {
         try

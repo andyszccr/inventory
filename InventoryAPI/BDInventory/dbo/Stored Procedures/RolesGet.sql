@@ -18,6 +18,7 @@ BEGIN
             CONVERT(varchar,ModifiedDate,103)    [Fecha de modificacion]    ,
             CONVERT(varchar,DeletedDate,103)     [Fecha de desactivacion]   
         FROM dbo.Roles
+        WHERE DeletedDate IS NULL
 
     END TRY
     BEGIN CATCH

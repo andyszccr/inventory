@@ -46,6 +46,16 @@ public class RoleService(IRoleRepository roles) : IRoleService
         return roles.UpdateAsync(roleId, name, description, isActive, cancellationToken);
     }
 
+    public Task DeleteAsync(int roleId, CancellationToken cancellationToken = default)
+    {
+        if (roleId <= 0)
+        {
+            throw new ArgumentException("El identificador del rol es obligatorio.", nameof(roleId));
+        }
+
+        return roles.DeleteAsync(roleId, cancellationToken);
+    }
+
     private static string NormalizeName(string rolesName)
     {
         var name = rolesName?.Trim() ?? string.Empty;

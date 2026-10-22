@@ -60,6 +60,14 @@
                     <td>{{ role.fechaModificacion }}</td>
                     <td class="action">
                       <button type="button" class="text" (click)="startEdit(role)">Editar</button>
+                      <button
+                        type="button"
+                        class="text danger"
+                        [disabled]="deletingId() === role.roleId"
+                        (click)="remove(role)"
+                      >
+                        {{ deletingId() === role.roleId ? 'Eliminando...' : 'Eliminar' }}
+                      </button>
                     </td>
                   </tr>
                 }

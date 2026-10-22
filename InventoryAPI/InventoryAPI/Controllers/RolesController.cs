@@ -45,6 +45,16 @@ public class RolesController(IRoleService roles) : ControllerBase
         });
     }
 
+    [HttpDelete("{id:int}")]
+    public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
+    {
+        return await ExecuteAsync(async () =>
+        {
+            await roles.DeleteAsync(id, cancellationToken);
+            return NoContent();
+        });
+    }
+
     private async Task<IActionResult> ExecuteAsync(Func<Task<IActionResult>> action)
     {
         try
@@ -61,7 +71,7 @@ public class RolesController(IRoleService roles) : ControllerBase
             {
                 50001 => BadRequest(new { message = exception.Message }),
                 50002 => Conflict(new { message = exception.Message }),
-                50003 => NotFound(new { message = exception.Message }),
+                50003 or 50004 => NotFound(new { message = exception.Message }),
                 _ => StatusCode(StatusCodes.Status500InternalServerError, new { message = exception.Message })
             };
         }

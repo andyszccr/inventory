@@ -222,6 +222,11 @@ button:disabled {
   text-decoration: underline;
 }
 
+.text.danger {
+  margin-left: 10px;
+  color: #8c2f2f;
+}
+
 @media (max-width: 840px) {
   .work {
     grid-template-columns: 1fr;

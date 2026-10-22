@@ -34,4 +34,8 @@ export class RoleService {
       isActive: role.isActive ?? true,
     });
   }
+
+  delete(roleId: number): Observable<unknown> {
+    return this.http.delete(`${ROLES_URL}/${roleId}`);
+  }
 }

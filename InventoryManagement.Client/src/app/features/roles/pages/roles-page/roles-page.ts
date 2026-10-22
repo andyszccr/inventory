@@ -3,6 +3,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import { AppBar } from '../../../../core/layout/app-bar';
 import { RoleListItem } from '../../models/role.model';
+import { confirmRemove } from '../../services/role-alerts';
 import { readApiError, RoleService } from '../../services/role.service';
 
 @Component({
@@ -21,6 +22,7 @@ export class RolesPage implements OnInit {
   protected readonly query = signal('');
   protected readonly editingId = signal<number | null>(null);
   protected readonly saving = signal(false);
+  protected readonly deletingId = signal<number | null>(null);
   protected readonly formError = signal('');
   protected readonly notice = signal('');
 
@@ -99,6 +101,30 @@ export class RolesPage implements OnInit {
       this.formError.set(readApiError(error));
     } finally {
       this.saving.set(false);
+    }
+  }
+
+  protected remove(role: RoleListItem): void {
+    confirmRemove(role.nombre, () => {
+      void this.deleteRole(role);
+    });
+  }
+
+  private async deleteRole(role: RoleListItem): Promise<void> {
+    this.notice.set('');
+    this.formError.set('');
+    this.deletingId.set(role.roleId);
+    try {
+      await firstValueFrom(this.rolesApi.delete(role.roleId));
+      if (this.editingId() === role.roleId) {
+        this.resetForm();
+      }
+      this.notice.set('Rol eliminado.');
+      await this.load(true);
+    } catch (error) {
+      this.formError.set(readApiError(error));
+    } finally {
+      this.deletingId.set(null);
     }
   }
 

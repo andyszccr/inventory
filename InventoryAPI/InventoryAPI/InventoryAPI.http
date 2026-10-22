@@ -4,3 +4,175 @@ GET {{InventoryAPI_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+
+GET {{InventoryAPI_HostAddress}}/api/roles
+Accept: application/json
+
+###
+
+GET {{InventoryAPI_HostAddress}}/api/roles/1
+Accept: application/json
+
+###
+
+POST {{InventoryAPI_HostAddress}}/api/roles
+Content-Type: application/json
+
+{
+  "rolesName": "Administrador",
+  "rolesDescription": "Acceso total"
+}
+
+###
+
+PUT {{InventoryAPI_HostAddress}}/api/roles/1
+Content-Type: application/json
+
+{
+  "rolesName": "Administrador",
+  "rolesDescription": "Acceso total al inventario",
+  "isActive": true
+}
+
+###
+
+POST {{InventoryAPI_HostAddress}}/api/usuarios
+Content-Type: application/json
+
+{
+  "nombreCompleto": "Ana Pérez",
+  "email": "ana@inventario.local",
+  "password": "ClaveSegura1",
+  "roleId": 1
+}
+
+###
+
+POST {{InventoryAPI_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "ana@inventario.local",
+  "password": "ClaveSegura1"
+}
+
+###
+
+GET {{InventoryAPI_HostAddress}}/api/usuarios
+Authorization: Bearer {{token}}
+Accept: application/json
+
+###
+
+GET {{InventoryAPI_HostAddress}}/api/categorias
+Accept: application/json
+
+###
+
+GET {{InventoryAPI_HostAddress}}/api/categorias/1
+Accept: application/json
+
+###
+
+POST {{InventoryAPI_HostAddress}}/api/categorias
+Content-Type: application/json
+
+{
+  "categoriaName": "Bebidas",
+  "categoriaDescription": "Productos líquidos",
+  "categoriasStatus": true
+}
+
+###
+
+PUT {{InventoryAPI_HostAddress}}/api/categorias/1
+Content-Type: application/json
+
+{
+  "categoriaName": "Bebidas",
+  "categoriaDescription": "Bebidas y refrescos",
+  "categoriasStatus": true
+}
+
+###
+
+DELETE {{InventoryAPI_HostAddress}}/api/categorias/1
+
+###
+
+GET {{InventoryAPI_HostAddress}}/api/productos
+Accept: application/json
+
+###
+
+GET {{InventoryAPI_HostAddress}}/api/productos/1
+Accept: application/json
+
+###
+
+POST {{InventoryAPI_HostAddress}}/api/productos
+Content-Type: application/json
+
+{
+  "codigoProducto": "BEB-001",
+  "productoName": "Agua 600 ml",
+  "productoDescription": "Agua purificada",
+  "categoriaId": 1,
+  "unitPrice": 12.50,
+  "stock": 100,
+  "minimumStock": 10,
+  "productoStatus": true
+}
+
+###
+
+PUT {{InventoryAPI_HostAddress}}/api/productos/1
+Content-Type: application/json
+
+{
+  "codigoProducto": "BEB-001",
+  "productoName": "Agua 600 ml",
+  "productoDescription": "Agua purificada sin gas",
+  "categoriaId": 1,
+  "unitPrice": 13.00,
+  "stock": 80,
+  "minimumStock": 10,
+  "productoStatus": true
+}
+
+###
+
+DELETE {{InventoryAPI_HostAddress}}/api/productos/1
+
+###
+
+GET {{InventoryAPI_HostAddress}}/api/movimientos
+Accept: application/json
+
+###
+
+POST {{InventoryAPI_HostAddress}}/api/movimientos
+Content-Type: application/json
+
+{
+  "productoId": 1,
+  "usuariosId": 1,
+  "movementType": "ENTRADA",
+  "cantidad": 10,
+  "notes": "Compra de mercancía"
+}
+
+###
+
+POST {{InventoryAPI_HostAddress}}/api/movimientos
+Content-Type: application/json
+
+{
+  "productoId": 1,
+  "usuariosId": 1,
+  "movementType": "SALIDA",
+  "cantidad": 2,
+  "notes": "Venta"
+}
+
+###

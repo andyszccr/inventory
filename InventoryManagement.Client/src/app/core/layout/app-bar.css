@@ -1,0 +1,52 @@
+:host {
+  display: block;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 20px;
+  background: #243028;
+  color: #d5ddd6;
+}
+
+.brand {
+  color: #f4f1ea;
+  font-weight: 650;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+a {
+  color: #c5cfc7;
+  text-decoration: none;
+}
+
+a.current {
+  color: #f4f1ea;
+  font-weight: 650;
+}
+
+.session {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.who {
+  font-size: 13px;
+}
+
+.out {
+  border: 1px solid #f4f1ea;
+  background: transparent;
+  color: #f4f1ea;
+  padding: 4px 10px;
+  cursor: pointer;
+}

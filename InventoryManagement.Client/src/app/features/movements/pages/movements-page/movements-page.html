@@ -1,0 +1,151 @@
+<div class="page">
+  <app-bar />
+
+  <main class="wrap">
+    <div class="head">
+      <div>
+        <h1>Movimientos</h1>
+        <p>Entradas, salidas y ajustes de existencias.</p>
+      </div>
+    </div>
+
+    @if (notice()) {
+      <p class="notice">{{ notice() }}</p>
+    }
+
+    <div class="work">
+      <section class="panel">
+        <div class="toolbar">
+          <label>
+            Buscar
+            <input
+              type="search"
+              [value]="query()"
+              (input)="onSearch($event)"
+              placeholder="Producto, tipo o usuario"
+            />
+          </label>
+          @if (!loading() && !loadError()) {
+            <span class="count">{{ visible().length }} en la lista</span>
+          }
+        </div>
+
+        @if (loading()) {
+          <p class="status">Cargando movimientos...</p>
+        } @else if (loadError()) {
+          <p class="status error">{{ loadError() }}</p>
+        } @else if (visible().length === 0) {
+          <p class="status">No hay movimientos para mostrar.</p>
+        } @else {
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Producto</th>
+                  <th>Tipo</th>
+                  <th>Cantidad</th>
+                  <th>Antes</th>
+                  <th>Después</th>
+                  <th>Usuario</th>
+                  <th>Notas</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (movement of visible(); track movement.movimientoId) {
+                  <tr>
+                    <td>{{ movement.fecha }}</td>
+                    <td>{{ movement.codigoProducto }} {{ movement.nombreProducto }}</td>
+                    <td>{{ typeLabel(movement.tipoMovimiento) }}</td>
+                    <td class="num">{{ amount(movement.cantidad) }}</td>
+                    <td class="num">{{ amount(movement.stockPrevio) }}</td>
+                    <td class="num">{{ amount(movement.nuevoStock) }}</td>
+                    <td>{{ movement.nombreUsuario }}</td>
+                    <td>{{ movement.notas }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+      </section>
+
+      <section class="panel editor">
+          <h2>Registrar movimiento</h2>
+          <form [formGroup]="form" (ngSubmit)="save()">
+            <label class="field">
+              Producto
+              <select formControlName="productoId" (change)="syncProduct()">
+                <option [ngValue]="0">Elige un producto</option>
+                @for (product of products(); track product.productoId) {
+                  <option [ngValue]="product.productoId">
+                    {{ product.codigo }} — {{ product.nombre }}
+                  </option>
+                }
+              </select>
+              @if (form.controls.productoId.touched && form.controls.productoId.invalid) {
+                <span class="field-error">Elige un producto.</span>
+              }
+            </label>
+            @if (currentProduct(); as product) {
+              <p class="hint">Stock actual {{ amount(product.stock) }}.</p>
+            }
+
+            <label class="field">
+              Tipo
+              <select formControlName="tipo" (change)="syncType()">
+                @for (type of types; track type.id) {
+                  <option [value]="type.id">{{ type.label }}</option>
+                }
+              </select>
+            </label>
+            @switch (movementType()) {
+              @case ('SALIDA') {
+                <p class="hint">Resta la cantidad. No puede dejar el stock en negativo.</p>
+              }
+              @case ('AJUSTE') {
+                <p class="hint">El stock queda en la cantidad indicada.</p>
+              }
+              @default {
+                <p class="hint">Suma la cantidad al stock actual.</p>
+              }
+            }
+
+            <label class="field">
+              {{ movementType() === 'AJUSTE' ? 'Nuevo stock' : 'Cantidad' }}
+              <input type="number" formControlName="cantidad" min="0.01" step="0.01" />
+              @if (form.controls.cantidad.touched && form.controls.cantidad.invalid) {
+                <span class="field-error">La cantidad tiene que ser mayor que cero.</span>
+              }
+            </label>
+
+            <label class="field">
+              Usuario
+              <select formControlName="usuariosId">
+                <option [ngValue]="0">Elige un usuario</option>
+                @for (user of users(); track user.usuariosId) {
+                  <option [ngValue]="user.usuariosId">{{ user.nombreCompleto }}</option>
+                }
+              </select>
+              @if (form.controls.usuariosId.touched && form.controls.usuariosId.invalid) {
+                <span class="field-error">Elige un usuario.</span>
+              }
+            </label>
+
+            <label class="field">
+              Notas
+              <textarea formControlName="notas" rows="3" maxlength="500"></textarea>
+            </label>
+
+            @if (formError()) {
+              <p class="field-error">{{ formError() }}</p>
+            }
+
+            <button type="submit" class="primary" [disabled]="saving()">
+              {{ saving() ? 'Registrando...' : 'Registrar' }}
+            </button>
+          </form>
+      </section>
+    </div>
+  </main>
+</div>

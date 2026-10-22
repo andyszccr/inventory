@@ -1,0 +1,171 @@
+<div class="page">
+  <app-bar />
+
+  <main class="wrap">
+    <div class="head">
+      <div>
+        <h1>Productos</h1>
+        <p>Código, precio, mínimo y categoría. El stock se mueve en Movimientos.</p>
+      </div>
+      <button type="button" class="primary" (click)="startCreate()">Nuevo producto</button>
+    </div>
+
+    @if (notice()) {
+      <p class="notice">{{ notice() }}</p>
+    }
+
+    <div class="work">
+      <section class="panel">
+        <div class="toolbar">
+          <label>
+            Buscar
+            <input
+              type="search"
+              [value]="query()"
+              (input)="onSearch($event)"
+              placeholder="Código, nombre o categoría"
+            />
+          </label>
+          @if (!loading() && !loadError()) {
+            <span class="count">{{ visible().length }} en la lista</span>
+          }
+        </div>
+
+        @if (loading()) {
+          <p class="status">Cargando productos...</p>
+        } @else if (loadError()) {
+          <p class="status error">{{ loadError() }}</p>
+        } @else if (visible().length === 0) {
+          <p class="status">No hay productos para mostrar.</p>
+        } @else {
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Código</th>
+                  <th>Nombre</th>
+                  <th>Categoría</th>
+                  <th>Precio</th>
+                  <th>Stock</th>
+                  <th>Mínimo</th>
+                  <th>Estado</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (product of visible(); track product.productoId) {
+                  <tr [class.selected]="editingId() === product.productoId">
+                    <td>{{ product.codigo }}</td>
+                    <td>{{ product.nombre }}</td>
+                    <td>{{ product.categoria }}</td>
+                    <td class="num">{{ amount(product.precioUnitario) }}</td>
+                    <td class="num" [class.low]="product.stock <= product.stockMinimo">
+                      {{ amount(product.stock) }}
+                    </td>
+                    <td class="num">{{ amount(product.stockMinimo) }}</td>
+                    <td [class.inactive]="product.estado !== 'Activo'">{{ product.estado }}</td>
+                    <td class="action">
+                      <button type="button" class="text" (click)="startEdit(product)">Editar</button>
+                      <button
+                        type="button"
+                        class="text danger"
+                        [disabled]="deletingId() === product.productoId"
+                        (click)="remove(product)"
+                      >
+                        {{ deletingId() === product.productoId ? 'Eliminando...' : 'Eliminar' }}
+                      </button>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+      </section>
+
+      <section class="panel editor">
+        <h2>{{ editingId() === null ? 'Nuevo producto' : 'Editar producto' }}</h2>
+
+        <form [formGroup]="form" (ngSubmit)="save()">
+          <label class="field">
+            Código
+            <input type="text" formControlName="codigo" maxlength="50" autocomplete="off" />
+            @if (form.controls.codigo.touched && form.controls.codigo.hasError('required')) {
+              <span class="field-error">Falta el código.</span>
+            }
+          </label>
+
+          <label class="field">
+            Nombre
+            <input type="text" formControlName="nombre" maxlength="150" autocomplete="off" />
+            @if (form.controls.nombre.touched && form.controls.nombre.hasError('required')) {
+              <span class="field-error">Falta el nombre.</span>
+            }
+          </label>
+
+          <label class="field">
+            Descripción
+            <textarea formControlName="descripcion" rows="3" maxlength="500"></textarea>
+          </label>
+
+          <label class="field">
+            Categoría
+            <select formControlName="categoriaId">
+              <option [ngValue]="0">Elige una categoría</option>
+              @for (category of categories(); track category.categoriaId) {
+                <option [ngValue]="category.categoriaId">{{ category.nombre }}</option>
+              }
+            </select>
+            @if (form.controls.categoriaId.touched && form.controls.categoriaId.invalid) {
+              <span class="field-error">Elige una categoría.</span>
+            }
+          </label>
+
+          <label class="field">
+            Precio
+            <input type="number" formControlName="precio" min="0" step="0.01" />
+            @if (form.controls.precio.touched && form.controls.precio.invalid) {
+              <span class="field-error">El precio no puede ser negativo.</span>
+            }
+          </label>
+
+          @if (editingId() === null) {
+            <p class="hint">El stock inicial queda en 0. Las existencias se registran en Movimientos.</p>
+          } @else {
+            <p class="hint">
+              Stock actual {{ amount(currentStock()) }}. Se modifica en Movimientos.
+            </p>
+          }
+
+          <label class="field">
+            Mínimo
+            <input type="number" formControlName="stockMinimo" min="0" step="0.01" />
+            @if (form.controls.stockMinimo.touched && form.controls.stockMinimo.invalid) {
+              <span class="field-error">El stock mínimo no puede ser negativo.</span>
+            }
+          </label>
+
+          @if (editingId() !== null) {
+            <label class="check">
+              <input type="checkbox" formControlName="activo" />
+              Activo
+            </label>
+          }
+
+          @if (formError()) {
+            <p class="field-error">{{ formError() }}</p>
+          }
+
+          <div class="actions">
+            <button type="submit" class="primary" [disabled]="saving()">
+              {{ saving() ? 'Guardando...' : 'Guardar' }}
+            </button>
+            @if (editingId() !== null) {
+              <button type="button" class="quiet" (click)="startCreate()">Cancelar</button>
+            }
+          </div>
+        </form>
+      </section>
+    </div>
+  </main>
+</div>

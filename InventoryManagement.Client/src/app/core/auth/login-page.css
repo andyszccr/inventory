@@ -1,0 +1,114 @@
+.gate {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(720px 420px at 50% -8%, #4e7d62 0%, transparent 62%),
+    linear-gradient(165deg, #1b3328 0%, #2c4d3c 48%, #173026 100%);
+}
+
+.panel {
+  width: min(400px, 100%);
+  padding: 28px 26px 24px;
+  background: #fbfaf7;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 14px;
+  box-shadow: 0 18px 42px rgba(10, 22, 16, 0.32);
+}
+
+.brand {
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+.mark {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 12px;
+  border-radius: 12px;
+  background: #2d4a3c;
+  color: #f4f1ea;
+}
+
+h1,
+p {
+  margin: 0;
+}
+
+h1 {
+  font-size: 22px;
+  font-weight: 650;
+}
+
+p {
+  margin-top: 6px;
+  color: #5e5a52;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.field {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 13px;
+}
+
+.control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  padding: 0 10px;
+  border: 1px solid #c8c2b6;
+  border-radius: 8px;
+  background: #fff;
+  color: #5e5a52;
+}
+
+.control:focus-within {
+  border-color: #2d4a3c;
+  color: #243028;
+}
+
+.control svg {
+  flex: none;
+}
+
+.control input {
+  width: 100%;
+  border: 0;
+  padding: 9px 0;
+  background: transparent;
+  outline: none;
+  color: #24221e;
+}
+
+.field-error {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+  color: #8c2f2f;
+}
+
+button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  margin-top: 6px;
+  border: 1px solid #243c31;
+  border-radius: 8px;
+  background: #2d4a3c;
+  color: #f7f4ee;
+  padding: 10px 12px;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: default;
+  opacity: 0.65;
+}

@@ -1,5 +1,7 @@
+using Application.Interfaces;
 using Infraestructure.Interface;
 using Infraestructure.Persistence;
+using Infraestructure.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -20,6 +22,11 @@ public static class DependencyInjection
         }
 
         services.AddSingleton<IDbConnectionFactory>(_ => new SqlConnectionFactory(connectionString));
+        services.AddScoped<IRoleRepository, RoleRepository>();
+        services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+        services.AddScoped<ICategoriaRepository, CategoriaRepository>();
+        services.AddScoped<IProductoRepository, ProductoRepository>();
+        services.AddScoped<IMovimientoRepository, MovimientoRepository>();
 
         return services;
     }

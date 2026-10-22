@@ -1,0 +1,126 @@
+<div class="page">
+  <app-bar />
+
+  <main class="wrap">
+    <div class="head">
+      <div>
+        <h1>Roles</h1>
+        <p>Nombre, descripción y si el rol sigue en uso.</p>
+      </div>
+      <button type="button" class="primary" (click)="startCreate()">Nuevo rol</button>
+    </div>
+
+    @if (notice()) {
+      <p class="notice">{{ notice() }}</p>
+    }
+
+    <div class="work">
+      <section class="panel">
+        <div class="toolbar">
+          <label>
+            Buscar
+            <input
+              type="search"
+              [value]="query()"
+              (input)="onSearch($event)"
+              placeholder="Nombre o descripción"
+            />
+          </label>
+          @if (!loading() && !loadError()) {
+            <span class="count">{{ visible().length }} en la lista</span>
+          }
+        </div>
+
+        @if (loading()) {
+          <p class="status">Cargando roles...</p>
+        } @else if (loadError()) {
+          <p class="status error">{{ loadError() }}</p>
+        } @else if (visible().length === 0) {
+          <p class="status">No hay roles para mostrar.</p>
+        } @else {
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Descripción</th>
+                  <th>Estado</th>
+                  <th>Creado</th>
+                  <th>Modificado</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (role of visible(); track role.roleId) {
+                  <tr [class.selected]="editingId() === role.roleId">
+                    <td>{{ role.nombre }}</td>
+                    <td>{{ role.descripcion }}</td>
+                    <td [class.inactive]="role.estado !== 'Activo'">{{ role.estado }}</td>
+                    <td>{{ role.fechaCreacion }}</td>
+                    <td>{{ role.fechaModificacion }}</td>
+                    <td class="action">
+                      <button type="button" class="text" (click)="startEdit(role)">Editar</button>
+                      <button
+                        type="button"
+                        class="text danger"
+                        [disabled]="deletingId() === role.roleId"
+                        (click)="remove(role)"
+                      >
+                        {{ deletingId() === role.roleId ? 'Eliminando...' : 'Eliminar' }}
+                      </button>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+      </section>
+
+      <section class="panel editor">
+        <h2>{{ editingId() === null ? 'Nuevo rol' : 'Editar rol' }}</h2>
+
+        <form [formGroup]="form" (ngSubmit)="save()">
+          <label class="field">
+            Nombre
+            <input type="text" formControlName="nombre" maxlength="50" autocomplete="off" />
+            @if (form.controls.nombre.touched && form.controls.nombre.hasError('required')) {
+              <span class="field-error">Falta el nombre.</span>
+            }
+            @if (form.controls.nombre.touched && form.controls.nombre.hasError('maxlength')) {
+              <span class="field-error">Máximo 50 caracteres.</span>
+            }
+          </label>
+
+          <label class="field">
+            Descripción
+            <textarea formControlName="descripcion" rows="4" maxlength="200"></textarea>
+            @if (form.controls.descripcion.touched && form.controls.descripcion.hasError('maxlength')) {
+              <span class="field-error">Máximo 200 caracteres.</span>
+            }
+          </label>
+
+          @if (editingId() !== null) {
+            <label class="check">
+              <input type="checkbox" formControlName="activo" />
+              Activo
+            </label>
+          }
+
+          @if (formError()) {
+            <p class="field-error">{{ formError() }}</p>
+          }
+
+          <div class="actions">
+            <button type="submit" class="primary" [disabled]="saving()">
+              {{ saving() ? 'Guardando...' : 'Guardar' }}
+            </button>
+            @if (editingId() !== null) {
+              <button type="button" class="quiet" (click)="startCreate()">Cancelar</button>
+            }
+          </div>
+        </form>
+      </section>
+    </div>
+  </main>
+</div>

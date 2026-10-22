@@ -1,0 +1,18 @@
+<header class="bar">
+  <span class="brand">Inventario</span>
+  <nav>
+    <a routerLink="/roles" routerLinkActive="current">Roles</a>
+    <a routerLink="/categorias" routerLinkActive="current">Categorías</a>
+    <a routerLink="/productos" routerLinkActive="current">Productos</a>
+    <a routerLink="/movimientos" routerLinkActive="current">Movimientos</a>
+    <a routerLink="/usuarios" routerLinkActive="current">Usuarios</a>
+  </nav>
+  @if (auth.token()) {
+    <div class="session">
+      @if (auth.user(); as user) {
+        <span class="who">{{ user.nombreCompleto }}</span>
+      }
+      <button type="button" class="out" (click)="logout()">Cerrar sesión</button>
+    </div>
+  }
+</header>

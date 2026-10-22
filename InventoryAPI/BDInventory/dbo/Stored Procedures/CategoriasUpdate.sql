@@ -1,5 +1,5 @@
 ﻿
-CREATE OR ALTER PROCEDURE dbo.CategoriasUpdate
+CREATE  PROCEDURE dbo.CategoriasUpdate
     @CategoriaID INT,
     @CategoriaName VARCHAR(100),
     @CategoriaDescription VARCHAR(250) = NULL,

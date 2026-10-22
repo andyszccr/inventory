@@ -61,7 +61,8 @@ public class ProductosController(IProductoService productos) : ControllerBase
                 request.ProductoStatus!.Value,
                 cancellationToken);
 
-            return NoContent();
+            var updated = await productos.GetByIdAsync(id, cancellationToken);
+            return Ok(updated);
         });
     }
 

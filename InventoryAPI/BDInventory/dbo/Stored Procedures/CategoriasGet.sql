@@ -1,5 +1,5 @@
 ﻿
-CREATE OR ALTER PROCEDURE dbo.CategoriasGet
+CREATE  PROCEDURE dbo.CategoriasGet
 AS
 BEGIN
     SET NOCOUNT ON;

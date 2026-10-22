@@ -6,6 +6,7 @@ BEGIN
 
     BEGIN TRY
         SELECT
+            P.ProductoID                        [Producto ID]       ,
             P.CodigoProducto                    [Codigo de producto],
             P.ProductoName                      [Nombre de Producto],
             P.ProductoDescription               [Descripcion]       ,

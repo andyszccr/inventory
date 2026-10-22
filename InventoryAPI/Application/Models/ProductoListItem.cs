@@ -2,6 +2,8 @@ namespace Application.Models;
 
 public class ProductoListItem
 {
+    public int ProductoId { get; init; }
+
     public string Codigo { get; init; } = string.Empty;
 
     public string Nombre { get; init; } = string.Empty;

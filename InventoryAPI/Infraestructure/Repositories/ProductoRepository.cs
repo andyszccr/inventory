@@ -146,6 +146,7 @@ public class ProductoRepository(IDbConnectionFactory connectionFactory) : IProdu
 
         return new ProductoListItem
         {
+            ProductoId = Convert.ToInt32(data["Producto ID"]),
             Codigo = ReadString(data, "Codigo de producto") ?? string.Empty,
             Nombre = ReadString(data, "Nombre de Producto") ?? string.Empty,
             Descripcion = ReadString(data, "Descripcion"),

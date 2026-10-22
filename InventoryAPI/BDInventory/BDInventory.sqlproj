@@ -59,6 +59,7 @@
     <Folder Include="dbo\" />
     <Folder Include="dbo\Tables\" />
     <Folder Include="Snapshots" />
+    <Folder Include="dbo\Stored Procedures\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Usuarios.sql" />
@@ -66,6 +67,11 @@
     <Build Include="dbo\Tables\Productos.sql" />
     <Build Include="dbo\Tables\MovimientosInventario.sql" />
     <Build Include="dbo\Tables\Categorias.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Roles_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\RolesUpdate.sql" />
+    <Build Include="dbo\Stored Procedures\RolesInsert.sql" />
+    <Build Include="dbo\Stored Procedures\RolesGetByID.sql" />
+    <Build Include="dbo\Stored Procedures\RolesGet.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Snapshots\BDInventory_20261021_22-17-49.dacpac" />

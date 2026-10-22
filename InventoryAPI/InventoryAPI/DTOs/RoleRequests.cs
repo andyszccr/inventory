@@ -11,7 +11,5 @@ public class RoleRequest
     [MaxLength(200)]
     public string? RolesDescription { get; set; }
 
-
-    [Required]
     public bool? IsActive { get; set; }
 }

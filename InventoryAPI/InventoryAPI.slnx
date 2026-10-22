@@ -1,3 +1,5 @@
 <Solution>
+  <Project Path="Application/Application.csproj" Id="e20fa3a1-a375-4587-84b8-1392d0e8ad62" />
+  <Project Path="Infraestructure/Infraestructure.csproj" Id="78e3792d-e2d6-46c1-b91f-c00a81692ced" />
   <Project Path="InventoryAPI/InventoryAPI.csproj" />
 </Solution>

@@ -4,7 +4,7 @@
 
 .bar {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 16px;
   padding: 10px 20px;
   background: #243028;
@@ -32,16 +32,21 @@ a.current {
   font-weight: 650;
 }
 
-.who {
+.session {
   margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.who {
   font-size: 13px;
 }
 
 .out {
-  border: 0;
-  background: none;
-  padding: 0;
+  border: 1px solid #f4f1ea;
+  background: transparent;
   color: #f4f1ea;
-  text-decoration: underline;
+  padding: 4px 10px;
   cursor: pointer;
 }

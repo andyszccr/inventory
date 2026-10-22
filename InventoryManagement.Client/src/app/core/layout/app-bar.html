@@ -7,8 +7,12 @@
     <a routerLink="/movimientos" routerLinkActive="current">Movimientos</a>
     <a routerLink="/usuarios" routerLinkActive="current">Usuarios</a>
   </nav>
-  @if (auth.user(); as user) {
-    <span class="who">{{ user.nombreCompleto }}</span>
-    <button type="button" class="out" (click)="logout()">Salir</button>
+  @if (auth.token()) {
+    <div class="session">
+      @if (auth.user(); as user) {
+        <span class="who">{{ user.nombreCompleto }}</span>
+      }
+      <button type="button" class="out" (click)="logout()">Cerrar sesión</button>
+    </div>
   }
 </header>

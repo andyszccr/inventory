@@ -49,12 +49,12 @@ La API escucha en `https://localhost:7156` y `http://localhost:5184` con el perf
 | Método | Ruta | Sesión |
 | --- | --- | --- |
 | `POST` | `/api/auth/login` | Pública. Devuelve el token JWT. |
-| `GET` `POST` `PUT` `DELETE` | `/api/roles` | Pública. |
-| `GET` `POST` `PUT` `DELETE` | `/api/categorias` | Pública. |
-| `GET` `POST` `PUT` `DELETE` | `/api/productos` | Pública. El cuerpo no incluye stock. |
-| `GET` `POST` | `/api/movimientos` | Pública. |
+| `GET` `POST` `PUT` `DELETE` | `/api/roles` | Requiere token. |
+| `GET` `POST` `PUT` `DELETE` | `/api/categorias` | Requiere token. |
+| `GET` `POST` `PUT` `DELETE` | `/api/productos` | Requiere token. El cuerpo no incluye stock. |
+| `GET` `POST` | `/api/movimientos` | Requiere token. |
 | `POST` | `/api/usuarios` | Pública. Alta de la primera cuenta. |
-| `GET` `PUT` `DELETE` | `/api/usuarios` | Requiere `Authorization: Bearer <token>`. |
+| `GET` `PUT` `DELETE` | `/api/usuarios` | Requiere token. |
 
 El token dura 120 minutos. `PUT` y `DELETE` de usuarios responden **204** sin cuerpo.
 
@@ -106,7 +106,7 @@ cd InventoryAPI
 dotnet run --project InventoryAPI --launch-profile https
 ```
 
-Cliente en http://localhost:4200. `ng serve` reenvía `/api` a `https://localhost:7156`:
+Cliente en http://localhost:4200. Sin sesión abre la pantalla de entrada. Con sesión, **Cerrar sesión** queda en la barra. `ng serve` reenvía `/api` a `https://localhost:7156`:
 
 ```bash
 cd InventoryManagement.Client

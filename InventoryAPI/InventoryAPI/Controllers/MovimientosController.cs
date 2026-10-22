@@ -1,10 +1,12 @@
 using Application.Exceptions;
 using Application.Interfaces;
 using InventoryAPI.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InventoryAPI.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class MovimientosController(IMovimientoService movimientos) : ControllerBase

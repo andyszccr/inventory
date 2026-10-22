@@ -1,4 +1,3 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { AbstractControl, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
@@ -40,15 +39,8 @@ export class MovementsPage implements OnInit {
   protected readonly saving = signal(false);
   protected readonly formError = signal('');
   protected readonly notice = signal('');
-  protected readonly loggingIn = signal(false);
-  protected readonly loginError = signal('');
   protected readonly productId = signal(0);
   protected readonly movementType = signal('ENTRADA');
-
-  protected readonly loginForm = this.formBuilder.nonNullable.group({
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', Validators.required],
-  });
 
   protected readonly form = this.formBuilder.group({
     productoId: [0, Validators.min(1)],
@@ -110,27 +102,6 @@ export class MovementsPage implements OnInit {
     return typeLabel(tipo);
   }
 
-  protected async enter(): Promise<void> {
-    this.loginError.set('');
-    if (this.loginForm.invalid) {
-      this.loginForm.markAllAsTouched();
-      return;
-    }
-
-    const value = this.loginForm.getRawValue();
-    this.loggingIn.set(true);
-    try {
-      const response = await firstValueFrom(this.auth.login(value.email.trim(), value.password));
-      this.auth.persist(response);
-      this.loginForm.reset({ email: '', password: '' });
-      await this.loadUsers();
-    } catch (error) {
-      this.loginError.set(readApiError(error));
-    } finally {
-      this.loggingIn.set(false);
-    }
-  }
-
   protected async save(): Promise<void> {
     this.formError.set('');
     this.notice.set('');
@@ -189,9 +160,7 @@ export class MovementsPage implements OnInit {
       ]);
       this.movements.set(movements);
       this.products.set(products.filter((product) => product.estado === 'Activo'));
-      if (this.auth.token()) {
-        await this.loadUsers();
-      }
+      await this.loadUsers();
     } catch (error) {
       this.movements.set([]);
       this.loadError.set(readApiError(error));
@@ -207,10 +176,6 @@ export class MovementsPage implements OnInit {
       this.applyDefaultUser();
     } catch (error) {
       this.users.set([]);
-      if (error instanceof HttpErrorResponse && error.status === 401) {
-        this.auth.logout();
-        return;
-      }
       this.formError.set(readApiError(error));
     }
   }

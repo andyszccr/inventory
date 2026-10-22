@@ -1,9 +1,7 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import { readApiError } from '../../../../core/api-error';
-import { AuthService } from '../../../../core/auth/auth.service';
 import { AppBar } from '../../../../core/layout/app-bar';
 import { RoleListItem } from '../../../roles/models/role.model';
 import { RoleService } from '../../../roles/services/role.service';
@@ -17,7 +15,6 @@ import { UserService } from '../../services/user.service';
   styleUrl: './users-page.css',
 })
 export class UsersPage implements OnInit {
-  protected readonly auth = inject(AuthService);
   private readonly usersApi = inject(UserService);
   private readonly rolesApi = inject(RoleService);
   private readonly formBuilder = inject(FormBuilder);
@@ -32,13 +29,6 @@ export class UsersPage implements OnInit {
   protected readonly deletingId = signal<number | null>(null);
   protected readonly formError = signal('');
   protected readonly notice = signal('');
-  protected readonly loggingIn = signal(false);
-  protected readonly loginError = signal('');
-
-  protected readonly loginForm = this.formBuilder.nonNullable.group({
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', Validators.required],
-  });
 
   protected readonly form = this.formBuilder.nonNullable.group({
     nombre: ['', [Validators.required, Validators.maxLength(150)]],
@@ -65,36 +55,11 @@ export class UsersPage implements OnInit {
   });
 
   ngOnInit(): void {
-    if (this.auth.token()) {
-      void this.load();
-    }
+    void this.load();
   }
 
   protected onSearch(event: Event): void {
     this.query.set((event.target as HTMLInputElement).value);
-  }
-
-  protected async enter(): Promise<void> {
-    this.loginError.set('');
-    if (this.loginForm.invalid) {
-      this.loginForm.markAllAsTouched();
-      return;
-    }
-
-    const value = this.loginForm.getRawValue();
-    this.loggingIn.set(true);
-    try {
-      const response = await firstValueFrom(
-        this.auth.login(value.email.trim(), value.password),
-      );
-      this.auth.persist(response);
-      this.loginForm.reset({ email: '', password: '' });
-      await this.load();
-    } catch (error) {
-      this.loginError.set(readApiError(error));
-    } finally {
-      this.loggingIn.set(false);
-    }
   }
 
   protected startCreate(): void {
@@ -209,12 +174,6 @@ export class UsersPage implements OnInit {
       this.users.set(users);
       this.roles.set(roles);
     } catch (error) {
-      if (error instanceof HttpErrorResponse && error.status === 401) {
-        this.auth.logout();
-        this.loginError.set('La sesión no es válida. Entra de nuevo.');
-        return;
-      }
-
       this.users.set([]);
       this.loadError.set(readApiError(error));
     } finally {
@@ -223,12 +182,6 @@ export class UsersPage implements OnInit {
   }
 
   private messageFor(error: unknown): string {
-    if (error instanceof HttpErrorResponse && error.status === 401) {
-      this.auth.logout();
-      this.loginError.set('La sesión no es válida. Entra de nuevo.');
-      return '';
-    }
-
     return readApiError(error);
   }
 }

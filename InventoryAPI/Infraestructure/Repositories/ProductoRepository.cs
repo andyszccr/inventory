@@ -48,7 +48,6 @@ public class ProductoRepository(IDbConnectionFactory connectionFactory) : IProdu
         string? productoDescription,
         int categoriaId,
         decimal unitPrice,
-        decimal stock,
         decimal minimumStock,
         CancellationToken cancellationToken = default)
     {
@@ -64,7 +63,6 @@ public class ProductoRepository(IDbConnectionFactory connectionFactory) : IProdu
                     ProductoDescription = productoDescription,
                     CategoriaID = categoriaId,
                     UnitPrice = unitPrice,
-                    Stock = stock,
                     MinimumStock = minimumStock
                 },
                 commandType: CommandType.StoredProcedure,
@@ -82,7 +80,6 @@ public class ProductoRepository(IDbConnectionFactory connectionFactory) : IProdu
         string? productoDescription,
         int categoriaId,
         decimal unitPrice,
-        decimal stock,
         decimal minimumStock,
         bool productoStatus,
         CancellationToken cancellationToken = default)
@@ -100,7 +97,6 @@ public class ProductoRepository(IDbConnectionFactory connectionFactory) : IProdu
                     ProductoDescription = productoDescription,
                     CategoriaID = categoriaId,
                     UnitPrice = unitPrice,
-                    Stock = stock,
                     MinimumStock = minimumStock,
                     ProductoStatus = productoStatus
                 },

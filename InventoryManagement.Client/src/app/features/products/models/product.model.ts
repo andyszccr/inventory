@@ -19,7 +19,6 @@ export interface ProductWrite {
   productoDescription: string | null;
   categoriaId: number;
   unitPrice: number;
-  stock: number;
   minimumStock: number;
   productoStatus: boolean;
 }

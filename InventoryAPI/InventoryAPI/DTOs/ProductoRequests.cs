@@ -22,9 +22,6 @@ public class ProductoRequest
     public decimal UnitPrice { get; set; }
 
     [Required]
-    public decimal Stock { get; set; }
-
-    [Required]
     public decimal MinimumStock { get; set; }
 
     [Required]

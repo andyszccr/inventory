@@ -14,7 +14,6 @@ public interface IProductoService
         string? productoDescription,
         int categoriaId,
         decimal unitPrice,
-        decimal stock,
         decimal minimumStock,
         CancellationToken cancellationToken = default);
 
@@ -25,7 +24,6 @@ public interface IProductoService
         string? productoDescription,
         int categoriaId,
         decimal unitPrice,
-        decimal stock,
         decimal minimumStock,
         bool productoStatus,
         CancellationToken cancellationToken = default);

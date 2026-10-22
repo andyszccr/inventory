@@ -36,9 +36,17 @@ export class ProductsPage implements OnInit {
     descripcion: ['', [Validators.maxLength(500)]],
     categoriaId: [0, Validators.min(1)],
     precio: [0, [Validators.required, Validators.min(0)]],
-    stock: [0, [Validators.required, Validators.min(0)]],
     stockMinimo: [0, [Validators.required, Validators.min(0)]],
     activo: [true],
+  });
+
+  protected readonly currentStock = computed(() => {
+    const id = this.editingId();
+    if (id === null) {
+      return 0;
+    }
+
+    return this.products().find((product) => product.productoId === id)?.stock ?? 0;
   });
 
   protected readonly visible = computed(() => {
@@ -88,7 +96,6 @@ export class ProductsPage implements OnInit {
       descripcion: product.descripcion ?? '',
       categoriaId: category?.categoriaId ?? 0,
       precio: product.precioUnitario,
-      stock: product.stock,
       stockMinimo: product.stockMinimo,
       activo: product.estado === 'Activo',
     });
@@ -111,7 +118,6 @@ export class ProductsPage implements OnInit {
       productoDescription: value.descripcion.trim() || null,
       categoriaId: value.categoriaId,
       unitPrice: Number(value.precio),
-      stock: Number(value.stock),
       minimumStock: Number(value.stockMinimo),
       productoStatus: id === null ? true : value.activo,
     };
@@ -165,7 +171,6 @@ export class ProductsPage implements OnInit {
       descripcion: '',
       categoriaId: 0,
       precio: 0,
-      stock: 0,
       stockMinimo: 0,
       activo: true,
     });

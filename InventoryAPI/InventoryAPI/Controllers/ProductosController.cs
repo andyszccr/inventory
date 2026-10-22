@@ -36,7 +36,6 @@ public class ProductosController(IProductoService productos) : ControllerBase
                 request.ProductoDescription,
                 request.CategoriaId,
                 request.UnitPrice,
-                request.Stock,
                 request.MinimumStock,
                 cancellationToken);
 
@@ -56,7 +55,6 @@ public class ProductosController(IProductoService productos) : ControllerBase
                 request.ProductoDescription,
                 request.CategoriaId,
                 request.UnitPrice,
-                request.Stock,
                 request.MinimumStock,
                 request.ProductoStatus!.Value,
                 cancellationToken);

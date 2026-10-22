@@ -177,6 +177,12 @@ td.action {
   font-size: 12px;
 }
 
+.hint {
+  margin: 0 0 10px;
+  color: #5e5a52;
+  font-size: 13px;
+}
+
 .check {
   display: flex;
   align-items: center;

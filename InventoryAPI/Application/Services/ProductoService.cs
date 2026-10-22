@@ -22,7 +22,6 @@ public class ProductoService(IProductoRepository productos) : IProductoService
         string? productoDescription,
         int categoriaId,
         decimal unitPrice,
-        decimal stock,
         decimal minimumStock,
         CancellationToken cancellationToken = default)
     {
@@ -30,9 +29,9 @@ public class ProductoService(IProductoRepository productos) : IProductoService
         var name = NormalizeName(productoName);
         var description = NormalizeDescription(productoDescription);
         ValidateCategoria(categoriaId);
-        ValidateAmounts(unitPrice, stock, minimumStock);
+        ValidateAmounts(unitPrice, minimumStock);
 
-        return productos.InsertAsync(codigo, name, description, categoriaId, unitPrice, stock, minimumStock, cancellationToken);
+        return productos.InsertAsync(codigo, name, description, categoriaId, unitPrice, minimumStock, cancellationToken);
     }
 
     public Task UpdateAsync(
@@ -42,7 +41,6 @@ public class ProductoService(IProductoRepository productos) : IProductoService
         string? productoDescription,
         int categoriaId,
         decimal unitPrice,
-        decimal stock,
         decimal minimumStock,
         bool productoStatus,
         CancellationToken cancellationToken = default)
@@ -52,7 +50,7 @@ public class ProductoService(IProductoRepository productos) : IProductoService
         var name = NormalizeName(productoName);
         var description = NormalizeDescription(productoDescription);
         ValidateCategoria(categoriaId);
-        ValidateAmounts(unitPrice, stock, minimumStock);
+        ValidateAmounts(unitPrice, minimumStock);
 
         return productos.UpdateAsync(
             productoId,
@@ -61,7 +59,6 @@ public class ProductoService(IProductoRepository productos) : IProductoService
             description,
             categoriaId,
             unitPrice,
-            stock,
             minimumStock,
             productoStatus,
             cancellationToken);
@@ -140,16 +137,16 @@ public class ProductoService(IProductoRepository productos) : IProductoService
         }
     }
 
-    private static void ValidateAmounts(decimal unitPrice, decimal stock, decimal minimumStock)
+    private static void ValidateAmounts(decimal unitPrice, decimal minimumStock)
     {
         if (unitPrice < 0)
         {
             throw new ArgumentException("El precio no puede ser negativo.", nameof(unitPrice));
         }
 
-        if (stock < 0 || minimumStock < 0)
+        if (minimumStock < 0)
         {
-            throw new ArgumentException("El stock y el stock mínimo no pueden ser negativos.");
+            throw new ArgumentException("El stock mínimo no puede ser negativo.", nameof(minimumStock));
         }
     }
 }

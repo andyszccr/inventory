@@ -5,7 +5,7 @@
     <div class="head">
       <div>
         <h1>Productos</h1>
-        <p>Código, precio, existencias y categoría.</p>
+        <p>Código, precio, mínimo y categoría. El stock se mueve en Movimientos.</p>
       </div>
       <button type="button" class="primary" (click)="startCreate()">Nuevo producto</button>
     </div>
@@ -129,22 +129,21 @@
             }
           </label>
 
-          <div class="pair">
-            <label class="field">
-              Stock
-              <input type="number" formControlName="stock" min="0" step="0.01" />
-            </label>
-            <label class="field">
-              Mínimo
-              <input type="number" formControlName="stockMinimo" min="0" step="0.01" />
-            </label>
-          </div>
-          @if (
-            (form.controls.stock.touched && form.controls.stock.invalid) ||
-            (form.controls.stockMinimo.touched && form.controls.stockMinimo.invalid)
-          ) {
-            <span class="field-error">El stock no puede ser negativo.</span>
+          @if (editingId() === null) {
+            <p class="hint">El stock inicial queda en 0. Las existencias se registran en Movimientos.</p>
+          } @else {
+            <p class="hint">
+              Stock actual {{ amount(currentStock()) }}. Se modifica en Movimientos.
+            </p>
           }
+
+          <label class="field">
+            Mínimo
+            <input type="number" formControlName="stockMinimo" min="0" step="0.01" />
+            @if (form.controls.stockMinimo.touched && form.controls.stockMinimo.invalid) {
+              <span class="field-error">El stock mínimo no puede ser negativo.</span>
+            }
+          </label>
 
           @if (editingId() !== null) {
             <label class="check">

@@ -6,7 +6,6 @@ CREATE   PROCEDURE dbo.ProductosUpdate
     @ProductoDescription VARCHAR(500) = NULL,
     @CategoriaID INT,
     @UnitPrice DECIMAL(18,2),
-    @Stock DECIMAL(18,2),
     @MinimumStock DECIMAL(18,2),
     @ProductoStatus BIT
 AS
@@ -33,8 +32,8 @@ BEGIN
         IF @UnitPrice < 0
             THROW 50003, 'El precio no puede ser negativo.', 1;
 
-        IF @Stock < 0 OR @MinimumStock < 0
-            THROW 50004, 'El stock y el stock mínimo no pueden ser negativos.', 1;
+        IF @MinimumStock < 0
+            THROW 50004, 'El stock mínimo no puede ser negativo.', 1;
 
         IF EXISTS (
             SELECT 1
@@ -60,7 +59,6 @@ BEGIN
             p.ProductoDescription   = @ProductoDescription,
             p.CategoriaID           = @CategoriaID,
             p.UnitPrice             = @UnitPrice,
-            p.Stock                 = @Stock,
             p.MinimumStock          = @MinimumStock,
             p.ProductoStatus        = @ProductoStatus,
             p.UpdatedAt             = GETDATE()

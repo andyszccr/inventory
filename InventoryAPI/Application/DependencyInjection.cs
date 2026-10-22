@@ -12,6 +12,7 @@ public static class DependencyInjection
         services.AddScoped<IRoleService, RoleService>();
         services.AddSingleton<IPasswordHasher, Pbkdf2PasswordHasher>();
         services.AddScoped<IUsuarioService, UsuarioService>();
+        services.AddScoped<ICategoriaService, CategoriaService>();
         return services;
     }
 }

@@ -24,6 +24,7 @@ public static class DependencyInjection
         services.AddSingleton<IDbConnectionFactory>(_ => new SqlConnectionFactory(connectionString));
         services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+        services.AddScoped<ICategoriaRepository, CategoriaRepository>();
 
         return services;
     }

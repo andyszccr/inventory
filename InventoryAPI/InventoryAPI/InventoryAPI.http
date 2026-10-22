@@ -63,3 +63,39 @@ Authorization: Bearer {{token}}
 Accept: application/json
 
 ###
+
+GET {{InventoryAPI_HostAddress}}/api/categorias
+Accept: application/json
+
+###
+
+GET {{InventoryAPI_HostAddress}}/api/categorias/1
+Accept: application/json
+
+###
+
+POST {{InventoryAPI_HostAddress}}/api/categorias
+Content-Type: application/json
+
+{
+  "categoriaName": "Bebidas",
+  "categoriaDescription": "Productos líquidos",
+  "categoriasStatus": true
+}
+
+###
+
+PUT {{InventoryAPI_HostAddress}}/api/categorias/1
+Content-Type: application/json
+
+{
+  "categoriaName": "Bebidas",
+  "categoriaDescription": "Bebidas y refrescos",
+  "categoriasStatus": true
+}
+
+###
+
+DELETE {{InventoryAPI_HostAddress}}/api/categorias/1
+
+###

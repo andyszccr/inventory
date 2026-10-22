@@ -31,12 +31,6 @@ public class UsuariosController(IUsuarioService usuarios) : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Insert(CreateUsuarioRequest request, CancellationToken cancellationToken)
     {
-        var existentes = await usuarios.GetAsync(cancellationToken);
-        if (existentes.Count > 0 && User.Identity?.IsAuthenticated != true)
-        {
-            return Unauthorized(new { message = "Debe iniciar sesión para crear usuarios." });
-        }
-
         return await ExecuteAsync(async () =>
         {
             await usuarios.InsertAsync(request.NombreCompleto, request.Email, request.Password, request.RoleId, cancellationToken);

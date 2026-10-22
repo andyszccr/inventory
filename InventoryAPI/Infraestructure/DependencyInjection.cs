@@ -23,6 +23,7 @@ public static class DependencyInjection
 
         services.AddSingleton<IDbConnectionFactory>(_ => new SqlConnectionFactory(connectionString));
         services.AddScoped<IRoleRepository, RoleRepository>();
+        services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 
         return services;
     }

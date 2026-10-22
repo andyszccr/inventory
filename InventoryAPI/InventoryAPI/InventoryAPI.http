@@ -35,3 +35,31 @@ Content-Type: application/json
 }
 
 ###
+
+POST {{InventoryAPI_HostAddress}}/api/usuarios
+Content-Type: application/json
+
+{
+  "nombreCompleto": "Ana Pérez",
+  "email": "ana@inventario.local",
+  "password": "ClaveSegura1",
+  "roleId": 1
+}
+
+###
+
+POST {{InventoryAPI_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "ana@inventario.local",
+  "password": "ClaveSegura1"
+}
+
+###
+
+GET {{InventoryAPI_HostAddress}}/api/usuarios
+Authorization: Bearer {{token}}
+Accept: application/json
+
+###

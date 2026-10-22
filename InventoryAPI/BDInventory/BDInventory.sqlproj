@@ -72,6 +72,11 @@
     <Build Include="dbo\Stored Procedures\RolesInsert.sql" />
     <Build Include="dbo\Stored Procedures\RolesGetByID.sql" />
     <Build Include="dbo\Stored Procedures\RolesGet.sql" />
+    <Build Include="dbo\Stored Procedures\UsuariosUpdate.sql" />
+    <Build Include="dbo\Stored Procedures\UsuariosInsert.sql" />
+    <Build Include="dbo\Stored Procedures\UsuariosGetByID.sql" />
+    <Build Include="dbo\Stored Procedures\UsuariosGet.sql" />
+    <Build Include="dbo\Stored Procedures\UsuariosDelete.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Snapshots\BDInventory_20261021_22-17-49.dacpac" />

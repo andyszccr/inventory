@@ -4,3 +4,34 @@ GET {{InventoryAPI_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+
+GET {{InventoryAPI_HostAddress}}/api/roles
+Accept: application/json
+
+###
+
+GET {{InventoryAPI_HostAddress}}/api/roles/1
+Accept: application/json
+
+###
+
+POST {{InventoryAPI_HostAddress}}/api/roles
+Content-Type: application/json
+
+{
+  "rolesName": "Administrador",
+  "rolesDescription": "Acceso total"
+}
+
+###
+
+PUT {{InventoryAPI_HostAddress}}/api/roles/1
+Content-Type: application/json
+
+{
+  "rolesName": "Administrador",
+  "rolesDescription": "Acceso total al inventario",
+  "isActive": true
+}
+
+###

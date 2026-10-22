@@ -19,4 +19,9 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./features/products/products.routes').then((m) => m.PRODUCTS_ROUTES),
   },
+  {
+    path: 'movimientos',
+    loadChildren: () =>
+      import('./features/movements/movements.routes').then((m) => m.MOVEMENTS_ROUTES),
+  },
 ];

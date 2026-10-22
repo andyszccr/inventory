@@ -1,12 +1,13 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
+import { AppBar } from '../../../../core/layout/app-bar';
 import { RoleListItem } from '../../models/role.model';
 import { readApiError, RoleService } from '../../services/role.service';
 
 @Component({
   selector: 'app-roles-page',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, AppBar],
   templateUrl: './roles-page.html',
   styleUrl: './roles-page.css',
 })

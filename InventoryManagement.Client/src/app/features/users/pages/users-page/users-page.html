@@ -1,0 +1,179 @@
+<div class="page">
+  <app-bar />
+
+  <main class="wrap">
+    <div class="head">
+      <div>
+        <h1>Usuarios</h1>
+        <p>Nombre, correo, rol y si la cuenta sigue activa.</p>
+      </div>
+      @if (auth.token()) {
+        <button type="button" class="primary" (click)="startCreate()">Nuevo usuario</button>
+      }
+    </div>
+
+    @if (!auth.token()) {
+      <section class="panel login">
+        <h2>Entrar</h2>
+        <p class="hint">Hace falta la sesión para ver, modificar y borrar usuarios.</p>
+        <form [formGroup]="loginForm" (ngSubmit)="enter()">
+          <label class="field">
+            Correo
+            <input type="email" formControlName="email" autocomplete="username" />
+            @if (loginForm.controls.email.touched && loginForm.controls.email.invalid) {
+              <span class="field-error">Escribe un correo válido.</span>
+            }
+          </label>
+          <label class="field">
+            Contraseña
+            <input type="password" formControlName="password" autocomplete="current-password" />
+            @if (loginForm.controls.password.touched && loginForm.controls.password.invalid) {
+              <span class="field-error">Falta la contraseña.</span>
+            }
+          </label>
+          @if (loginError()) {
+            <p class="field-error">{{ loginError() }}</p>
+          }
+          <button type="submit" class="primary" [disabled]="loggingIn()">
+            {{ loggingIn() ? 'Entrando...' : 'Entrar' }}
+          </button>
+        </form>
+      </section>
+    } @else {
+      @if (notice()) {
+        <p class="notice">{{ notice() }}</p>
+      }
+
+      <div class="work">
+        <section class="panel">
+          <div class="toolbar">
+            <label>
+              Buscar
+              <input
+                type="search"
+                [value]="query()"
+                (input)="onSearch($event)"
+                placeholder="Nombre, correo o rol"
+              />
+            </label>
+            @if (!loading() && !loadError()) {
+              <span class="count">{{ visible().length }} en la lista</span>
+            }
+          </div>
+
+          @if (loading()) {
+            <p class="status">Cargando usuarios...</p>
+          } @else if (loadError()) {
+            <p class="status error">{{ loadError() }}</p>
+          } @else if (visible().length === 0) {
+            <p class="status">No hay usuarios para mostrar.</p>
+          } @else {
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Correo</th>
+                    <th>Rol</th>
+                    <th>Estado</th>
+                    <th>Creado</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (user of visible(); track user.usuariosId) {
+                    <tr [class.selected]="editingId() === user.usuariosId">
+                      <td>{{ user.nombreCompleto }}</td>
+                      <td>{{ user.email }}</td>
+                      <td>{{ user.rol }}</td>
+                      <td [class.inactive]="user.estado !== 'Activo'">{{ user.estado }}</td>
+                      <td>{{ user.fechaCreacion }}</td>
+                      <td class="action">
+                        <button type="button" class="text" (click)="startEdit(user)">Editar</button>
+                        <button
+                          type="button"
+                          class="text danger"
+                          [disabled]="deletingId() === user.usuariosId"
+                          (click)="remove(user)"
+                        >
+                          {{ deletingId() === user.usuariosId ? 'Eliminando...' : 'Eliminar' }}
+                        </button>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          }
+        </section>
+
+        <section class="panel editor">
+          <h2>{{ editingId() === null ? 'Nuevo usuario' : 'Editar usuario' }}</h2>
+          <form [formGroup]="form" (ngSubmit)="save()">
+            <label class="field">
+              Nombre
+              <input type="text" formControlName="nombre" maxlength="150" autocomplete="off" />
+              @if (form.controls.nombre.touched && form.controls.nombre.hasError('required')) {
+                <span class="field-error">Falta el nombre.</span>
+              }
+            </label>
+
+            <label class="field">
+              Correo
+              <input type="email" formControlName="email" maxlength="150" autocomplete="off" />
+              @if (form.controls.email.touched && form.controls.email.invalid) {
+                <span class="field-error">Escribe un correo válido.</span>
+              }
+            </label>
+
+            @if (editingId() === null) {
+              <label class="field">
+                Contraseña
+                <input type="password" formControlName="password" maxlength="100" autocomplete="new-password" />
+                @if (form.controls.password.touched && form.controls.password.hasError('required')) {
+                  <span class="field-error">Falta la contraseña.</span>
+                }
+                @if (form.controls.password.touched && form.controls.password.hasError('minlength')) {
+                  <span class="field-error">Mínimo 8 caracteres.</span>
+                }
+              </label>
+            }
+
+            <label class="field">
+              Rol
+              <select formControlName="roleId">
+                <option [ngValue]="0">Elige un rol</option>
+                @for (role of roles(); track role.roleId) {
+                  <option [ngValue]="role.roleId">{{ role.nombre }}</option>
+                }
+              </select>
+              @if (form.controls.roleId.touched && form.controls.roleId.invalid) {
+                <span class="field-error">Elige un rol.</span>
+              }
+            </label>
+
+            @if (editingId() !== null) {
+              <label class="check">
+                <input type="checkbox" formControlName="activo" />
+                Activo
+              </label>
+            }
+
+            @if (formError()) {
+              <p class="field-error">{{ formError() }}</p>
+            }
+
+            <div class="actions">
+              <button type="submit" class="primary" [disabled]="saving()">
+                {{ saving() ? 'Guardando...' : 'Guardar' }}
+              </button>
+              @if (editingId() !== null) {
+                <button type="button" class="quiet" (click)="startCreate()">Cancelar</button>
+              }
+            </div>
+          </form>
+        </section>
+      </div>
+    }
+  </main>
+</div>

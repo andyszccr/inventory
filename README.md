@@ -4,6 +4,17 @@ Sistema de inventario con API en ASP.NET Core, cliente en Angular y base de dato
 
 Cubre roles, usuarios, categorías, productos y movimientos de stock. El stock de un producto no se edita en su ficha: un alta lo deja en 0 y las existencias cambian solo al registrar un movimiento.
 
+## Documentación
+
+| Qué | Dónde |
+| --- | --- |
+| Manual técnico de las APIs (Postman y Bruno) | [InventoryAPI/manualTecnicoAPIs.md](InventoryAPI/manualTecnicoAPIs.md) |
+| Diccionario de tablas y columnas | [InventoryAPI/BDInventory/diccionarioDeBD.md](InventoryAPI/BDInventory/diccionarioDeBD.md) |
+| Script completo de la base | [InventoryAPI/ScriptDB.sql](InventoryAPI/ScriptDB.sql) |
+| Diagrama rápido de la base | [InventoryAPI/Diagrama de Base de datos version 1.0.png](<InventoryAPI/Diagrama de Base de datos version 1.0.png>) |
+
+![Diagrama de la base de datos](<InventoryAPI/Diagrama de Base de datos version 1.0.png>)
+
 ## Estructura
 
 ```

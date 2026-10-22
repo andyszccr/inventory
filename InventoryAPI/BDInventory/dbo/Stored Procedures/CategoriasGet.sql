@@ -1,5 +1,5 @@
 ﻿
-CREATE  PROCEDURE dbo.CategoriasGet
+CREATE OR ALTER PROCEDURE dbo.CategoriasGet
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -13,9 +13,9 @@ BEGIN
             when CategoriasStatus  =1 then 'Activo'
             else    'Inactivo'
             end   [Estado]                    ,     
-            CONVERT(varchar,CreateDate,103)     [Fecha de creacion]         ,
-            CONVERT(varchar,ModifiedDate,103)    [Fecha de modificacion]    ,
-            CONVERT(varchar,DeletedDate,103)     [Fecha de desactivacion]   
+            CONVERT(varchar(16), CreateDate, 120)    [Fecha de creacion],
+            CONVERT(varchar(16), ModifiedDate, 120) [Fecha de modificacion],
+            CONVERT(varchar(16), DeletedDate, 120)  [Fecha de desactivacion]   
         FROM dbo.Categorias
         WHERE DeletedDate IS NULL
         ORDER BY CategoriaName ASC;

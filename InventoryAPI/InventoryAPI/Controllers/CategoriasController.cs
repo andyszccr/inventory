@@ -47,7 +47,8 @@ public class CategoriasController(ICategoriaService categorias) : ControllerBase
                 request.CategoriasStatus!.Value,
                 cancellationToken);
 
-            return NoContent();
+            var updated = await categorias.GetByIdAsync(id, cancellationToken);
+            return Ok(updated);
         });
     }
 

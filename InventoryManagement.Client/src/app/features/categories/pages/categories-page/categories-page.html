@@ -1,0 +1,126 @@
+<div class="page">
+  <app-bar />
+
+  <main class="wrap">
+    <div class="head">
+      <div>
+        <h1>Categorías</h1>
+        <p>Nombre, descripción y si la categoría sigue en uso.</p>
+      </div>
+      <button type="button" class="primary" (click)="startCreate()">Nueva categoría</button>
+    </div>
+
+    @if (notice()) {
+      <p class="notice">{{ notice() }}</p>
+    }
+
+    <div class="work">
+      <section class="panel">
+        <div class="toolbar">
+          <label>
+            Buscar
+            <input
+              type="search"
+              [value]="query()"
+              (input)="onSearch($event)"
+              placeholder="Nombre o descripción"
+            />
+          </label>
+          @if (!loading() && !loadError()) {
+            <span class="count">{{ visible().length }} en la lista</span>
+          }
+        </div>
+
+        @if (loading()) {
+          <p class="status">Cargando categorías...</p>
+        } @else if (loadError()) {
+          <p class="status error">{{ loadError() }}</p>
+        } @else if (visible().length === 0) {
+          <p class="status">No hay categorías para mostrar.</p>
+        } @else {
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Descripción</th>
+                  <th>Estado</th>
+                  <th>Creado</th>
+                  <th>Modificado</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (category of visible(); track category.categoriaId) {
+                  <tr [class.selected]="editingId() === category.categoriaId">
+                    <td>{{ category.nombre }}</td>
+                    <td>{{ category.descripcion }}</td>
+                    <td [class.inactive]="category.estado !== 'Activo'">{{ category.estado }}</td>
+                    <td>{{ category.fechaCreacion }}</td>
+                    <td>{{ category.fechaModificacion }}</td>
+                    <td class="action">
+                      <button type="button" class="text" (click)="startEdit(category)">Editar</button>
+                      <button
+                        type="button"
+                        class="text danger"
+                        [disabled]="deletingId() === category.categoriaId"
+                        (click)="remove(category)"
+                      >
+                        {{ deletingId() === category.categoriaId ? 'Eliminando...' : 'Eliminar' }}
+                      </button>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+      </section>
+
+      <section class="panel editor">
+        <h2>{{ editingId() === null ? 'Nueva categoría' : 'Editar categoría' }}</h2>
+
+        <form [formGroup]="form" (ngSubmit)="save()">
+          <label class="field">
+            Nombre
+            <input type="text" formControlName="nombre" maxlength="100" autocomplete="off" />
+            @if (form.controls.nombre.touched && form.controls.nombre.hasError('required')) {
+              <span class="field-error">Falta el nombre.</span>
+            }
+            @if (form.controls.nombre.touched && form.controls.nombre.hasError('maxlength')) {
+              <span class="field-error">Máximo 100 caracteres.</span>
+            }
+          </label>
+
+          <label class="field">
+            Descripción
+            <textarea formControlName="descripcion" rows="4" maxlength="250"></textarea>
+            @if (form.controls.descripcion.touched && form.controls.descripcion.hasError('maxlength')) {
+              <span class="field-error">Máximo 250 caracteres.</span>
+            }
+          </label>
+
+          @if (editingId() !== null) {
+            <label class="check">
+              <input type="checkbox" formControlName="activo" />
+              Activa
+            </label>
+          }
+
+          @if (formError()) {
+            <p class="field-error">{{ formError() }}</p>
+          }
+
+          <div class="actions">
+            <button type="submit" class="primary" [disabled]="saving()">
+              {{ saving() ? 'Guardando...' : 'Guardar' }}
+            </button>
+            @if (editingId() !== null) {
+              <button type="button" class="quiet" (click)="startCreate()">Cancelar</button>
+            }
+          </div>
+        </form>
+      </section>
+    </div>
+  </main>
+</div>

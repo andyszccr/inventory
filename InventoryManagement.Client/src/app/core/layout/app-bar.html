@@ -3,6 +3,7 @@
   <nav>
     <a routerLink="/roles" routerLinkActive="current">Roles</a>
     <a routerLink="/usuarios" routerLinkActive="current">Usuarios</a>
+    <a routerLink="/categorias" routerLinkActive="current">Categorías</a>
   </nav>
   @if (auth.user(); as user) {
     <span class="who">{{ user.nombreCompleto }}</span>

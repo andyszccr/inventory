@@ -10,4 +10,8 @@ export const routes: Routes = [
     path: 'usuarios',
     loadChildren: () => import('./features/users/users.routes').then((m) => m.USERS_ROUTES),
   },
+  {
+    path: 'categorias',
+    loadChildren: () => import('./features/categories/categories.routes').then((m) => m.CATEGORIES_ROUTES),
+  },
 ];

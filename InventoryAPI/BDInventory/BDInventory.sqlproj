@@ -78,6 +78,11 @@
     <Build Include="dbo\Stored Procedures\UsuariosGet.sql" />
     <Build Include="dbo\Stored Procedures\UsuariosDelete.sql" />
     <Build Include="dbo\Stored Procedures\UsuariosGetByEmail.sql" />
+    <Build Include="dbo\Stored Procedures\CategoriasUpdate.sql" />
+    <Build Include="dbo\Stored Procedures\CategoriasInsert.sql" />
+    <Build Include="dbo\Stored Procedures\CategoriasGetByID.sql" />
+    <Build Include="dbo\Stored Procedures\CategoriasGet.sql" />
+    <Build Include="dbo\Stored Procedures\CategoriasDelete.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Snapshots\BDInventory_20261021_22-17-49.dacpac" />

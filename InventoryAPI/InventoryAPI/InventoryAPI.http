@@ -145,3 +145,34 @@ Content-Type: application/json
 DELETE {{InventoryAPI_HostAddress}}/api/productos/1
 
 ###
+
+GET {{InventoryAPI_HostAddress}}/api/movimientos
+Accept: application/json
+
+###
+
+POST {{InventoryAPI_HostAddress}}/api/movimientos
+Content-Type: application/json
+
+{
+  "productoId": 1,
+  "usuariosId": 1,
+  "movementType": "ENTRADA",
+  "cantidad": 10,
+  "notes": "Compra de mercancía"
+}
+
+###
+
+POST {{InventoryAPI_HostAddress}}/api/movimientos
+Content-Type: application/json
+
+{
+  "productoId": 1,
+  "usuariosId": 1,
+  "movementType": "SALIDA",
+  "cantidad": 2,
+  "notes": "Venta"
+}
+
+###

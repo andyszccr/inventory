@@ -99,3 +99,49 @@ Content-Type: application/json
 DELETE {{InventoryAPI_HostAddress}}/api/categorias/1
 
 ###
+
+GET {{InventoryAPI_HostAddress}}/api/productos
+Accept: application/json
+
+###
+
+GET {{InventoryAPI_HostAddress}}/api/productos/1
+Accept: application/json
+
+###
+
+POST {{InventoryAPI_HostAddress}}/api/productos
+Content-Type: application/json
+
+{
+  "codigoProducto": "BEB-001",
+  "productoName": "Agua 600 ml",
+  "productoDescription": "Agua purificada",
+  "categoriaId": 1,
+  "unitPrice": 12.50,
+  "stock": 100,
+  "minimumStock": 10,
+  "productoStatus": true
+}
+
+###
+
+PUT {{InventoryAPI_HostAddress}}/api/productos/1
+Content-Type: application/json
+
+{
+  "codigoProducto": "BEB-001",
+  "productoName": "Agua 600 ml",
+  "productoDescription": "Agua purificada sin gas",
+  "categoriaId": 1,
+  "unitPrice": 13.00,
+  "stock": 80,
+  "minimumStock": 10,
+  "productoStatus": true
+}
+
+###
+
+DELETE {{InventoryAPI_HostAddress}}/api/productos/1
+
+###

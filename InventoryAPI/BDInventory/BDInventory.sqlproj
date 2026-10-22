@@ -83,6 +83,13 @@
     <Build Include="dbo\Stored Procedures\CategoriasGetByID.sql" />
     <Build Include="dbo\Stored Procedures\CategoriasGet.sql" />
     <Build Include="dbo\Stored Procedures\CategoriasDelete.sql" />
+    <Build Include="dbo\Stored Procedures\ProductosUpdate.sql" />
+    <Build Include="dbo\Stored Procedures\ProductosInsert.sql" />
+    <Build Include="dbo\Stored Procedures\ProductosGetByID.sql" />
+    <Build Include="dbo\Stored Procedures\ProductosGet.sql" />
+    <Build Include="dbo\Stored Procedures\ProductosDelete.sql" />
+    <Build Include="dbo\Stored Procedures\MovimientosInventarioInsert.sql" />
+    <Build Include="dbo\Stored Procedures\MovimientosInventarioGet.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Snapshots\BDInventory_20261021_22-17-49.dacpac" />

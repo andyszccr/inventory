@@ -2,8 +2,9 @@
   <span class="brand">Inventario</span>
   <nav>
     <a routerLink="/roles" routerLinkActive="current">Roles</a>
-    <a routerLink="/usuarios" routerLinkActive="current">Usuarios</a>
     <a routerLink="/categorias" routerLinkActive="current">Categorías</a>
+    <a routerLink="/productos" routerLinkActive="current">Productos</a>
+    <a routerLink="/usuarios" routerLinkActive="current">Usuarios</a>
   </nav>
   @if (auth.user(); as user) {
     <span class="who">{{ user.nombreCompleto }}</span>
